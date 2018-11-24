@@ -26,7 +26,9 @@ require('/path/to/JWT.php')
 
 ##### Via Composer
 
-*Instructions will be updated as soon as it is active in composer.*
+Run the following command in the same directory as your composer.json file:
+
+`php composer.phar require jabarihunt/json-web-token`
 
 ## Usage
 
