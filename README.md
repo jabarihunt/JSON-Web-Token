@@ -1,6 +1,6 @@
 # JSON Web Token Class
 
-A simple and lightweight class to create, sign, and verify JSON Web Tokens (JWT).  The class also has a method that creates secrets with double the minimun length needed to ensure the creation of secure signatures.  The [JWT standard](https://tools.ietf.org/html/rfc7519 "RFC 7519") requires that implementations must support HS256 and "none" as valid algorithms (all others are optional).  This implementation currently supports HS256, HS384, HS512, and "none".  Support for both RS and ES eqivalent algorithms will be added in future versions.
+A simple and lightweight class to create, sign, and verify JSON Web Tokens (JWT).  The class also has a method that creates secrets with double the minimum length needed to ensure the creation of secure signatures.  The [JWT standard](https://tools.ietf.org/html/rfc7519 "RFC 7519") requires that implementations must support HS256 and "none" as valid algorithms (all others are optional).  This implementation currently supports HS256, HS384, HS512, and "none".  Support for both RS and ES equivalent algorithms will be added in future versions.
 
 ## Getting Started
 
@@ -37,7 +37,7 @@ You are free to pass any secret you like when using the `sign()` and `verify()` 
 
 > ***NOTE:*** Secrets should be stored in a secure location (configuration include, .env, etc.) and NOT within your script.  Additionally, the generated secrets are not URL safe, though, it should NEVER be passed around via server requests aanyway!
 
-In our example, we will generate a secret and pass along the optional `$algorithm` paramater using the variable of the same name we created above...
+In our example, we will generate a secret and pass along the optional `$algorithm` parameter using the variable of the same name we created above...
 
 ```php
 $secret = JWT::generateSecret($algorithm);
@@ -59,9 +59,9 @@ JSON Web Tokens are created with the `sign()` method which takes three different
 
 `(String) $secretOrPrivateKey` - For the HS256, HS384, and HS512 algorithms, it expects this to be a secret (as generated above). For the "none" algorithm, simply pass `NULL` (it will ignore any value passed since no signature will be appended). For all other algorithms, it expects a string path to the private key file used to encrypt the signature.
 
-`(String) $algorithm` (optional) - The name of the algarithm to be used for signing (it defaults to HS256).  All supported  algorithms may be accessed as class constants.
+`(String) $algorithm` (optional) - The name of the algorithm to be used for signing (it defaults to HS256).  All supported  algorithms may be accessed as class constants.
 
-Putting it together with the secret (pulling from `$_ENV`) and algarithm examples from above...
+Putting it together with the secret (pulling from `$_ENV`) and algorithm examples from above...
 
 ```php
 <?php
@@ -75,7 +75,6 @@ Putting it together with the secret (pulling from `$_ENV`) and algarithm example
 
 ?>
 ```
-
 
 ## Contributing
 
