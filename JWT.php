@@ -52,6 +52,7 @@
              * @param array $payload
              * @param string $secretOrPrivateKey
              * @param string $algorithm
+             * @throws \Exception Invalid token passed to JWT::verify()
              * @throws \Exception Invalid algorithm passed to JWT::sign().
              * @return string
              ********************************************************************************/
@@ -95,14 +96,17 @@
                     // SET INITIAL VARIABLES | MAKE SURE REQUIRED PARTS EXIST
 
                         $data['isVerified'] = FALSE;
+                        $data['header']     = [];
+                        $data['payload']    = [];
+
                         list($header, $payload, $signature) = explode('.', $token);
 
                         if (!empty($header) && !empty($payload))
                         {
                             // EXTRACT HEADER AND PAYLOAD
 
-                                $data['header']    = self::decode($header);
-                                $data['payload']   = self::decode($payload);
+                                $data['header']  = self::decode($header);
+                                $data['payload'] = self::decode($payload);
 
                             // VALIDATE SIGNATURE
 
@@ -128,6 +132,7 @@
                                 }
 
                         }
+                        else {throw new \Exception('Invalid token passed to JWT::verify().');}
 
                     // RETURN DATA
 
@@ -176,8 +181,8 @@
                 private static function decode($data, $decodeJSON = TRUE)
                 {
                     $data = base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
-                    $data = $decodeJSON ? json_decode($data) : $data;
-                    return is_object($data) ? (Array) $data : $data;
+                    if ($decodeJSON) {$data = json_decode($data, TRUE);}
+                    return $data;
                 }
     }
 
