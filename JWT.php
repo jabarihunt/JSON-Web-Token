@@ -52,7 +52,6 @@
              * @param array $payload
              * @param string $secretOrPrivateKey
              * @param string $algorithm
-             * @throws \Exception Invalid token passed to JWT::verify()
              * @throws \Exception Invalid algorithm passed to JWT::sign().
              * @return string
              ********************************************************************************/
@@ -87,6 +86,7 @@
              * VERIFY METHOD
              * @param string $token
              * @param string $secretOrPublicKey
+             * @throws \Exception Invalid token passed to JWT::verify()
              * @throws \Exception Token signed with unsupported algorithm.
              * @return array
              ********************************************************************************/
