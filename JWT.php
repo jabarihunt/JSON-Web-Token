@@ -1,4 +1,4 @@
-<?php namespace Manevia;
+<?php namespace jabarihunt;
 
     /********************************************************************************
     * JSON Web Token Handler | PHP 5.6+
@@ -11,12 +11,11 @@
     * JWT::generateSecret() generates a secret with twice the recommended key length.
     *
     * @author Jabari J. Hunt <jabari@jabari.net>
-    * @klink https://tools.ietf.org/html/rfc7519 RFC 7519
     * @todo Add support for ES and RS algorithms
     ********************************************************************************/
 
-	class JWT
-	{
+    class JWT
+    {
         /********************************************************************************
          * CLASS VARIABLES
          * @var string ALGORITHM_HS256
@@ -53,7 +52,7 @@
              * @param array $payload
              * @param string $secretOrPrivateKey
              * @param string $algorithm
-             * @throws \Exception Unsupported algorithm passed to JWT::sign().
+             * @throws \Exception Invalid algorithm passed to JWT::sign().
              * @return string
              ********************************************************************************/
 
@@ -62,9 +61,9 @@
                     // MAKE SURE A SUPPORTED ALGORITHM WAS PASSED
 
                         if (array_key_exists($algorithm, self::ALGORITHMS)) {$algorithm = self::ALGORITHMS[$algorithm];}
-                        else {throw new \Exception('Unsupported algorithm passed to JWT::sign().');}
+                        else {throw new \Exception('Invalid algorithm passed to JWT::sign().');}
 
-                    // ADD HEADER AND PAYLOAD TO TOKEN
+                    // BUILD TOKEN HEADER AND PAYLOAD
 
                         $token  = self::encode(['alg' => $algorithm['name'], 'type' => 'JWT']);
                         $token .= '.' . self::encode($payload);
@@ -104,15 +103,14 @@
 
                                 $data['header']    = self::decode($header);
                                 $data['payload']   = self::decode($payload);
-                                $data['signature'] = $signature;
 
                             // VALIDATE SIGNATURE
 
-                                if (!empty($data['header']->alg) && $data['header']->alg !== 'none')
+                                if (!empty($data['header']['alg']) && $data['header']['alg'] !== 'none')
                                 {
                                     // GET ALGORITHM
 
-                                        if (!empty(self::ALGORITHMS[$data['header']->alg])) {$algorithm = self::ALGORITHMS[$data['header']->alg];}
+                                        if (!empty(self::ALGORITHMS[$data['header']['alg']])) {$algorithm = self::ALGORITHMS[$data['header']['alg']];}
                                         else {throw new \Exception('Token signed with unsupported algorithm.');}
 
                                     // HS256, HS384, HS512 -> CHECK SIGNATURE
@@ -178,8 +176,9 @@
                 private static function decode($data, $decodeJSON = TRUE)
                 {
                     $data = base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
-                    return $decodeJSON ? json_decode($data) : $data;
+                    $data = $decodeJSON ? json_decode($data) : $data;
+                    return is_object($data) ? (Array) $data : $data;
                 }
-	}
+    }
 
 ?>
