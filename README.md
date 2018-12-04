@@ -10,6 +10,12 @@ Before using this class, you may want to [brush up on JWT](https://jwt.io/ "jwt.
 
 ### Installing
 
+##### Via Composer
+
+Run the following command in the same directory as your composer.json file:
+
+`php composer.phar require jabarihunt/json-web-token`
+
 ##### Via Github
 
 1. Clone this repository into a working directory: `git clone git@github.com:jabarihunt/JSON-Web-Token.git .`
@@ -23,12 +29,6 @@ require('/path/to/JWT.php')
 ```php
  use jabarihunt/JWT;
 ```
-
-##### Via Composer
-
-Run the following command in the same directory as your composer.json file:
-
-`php composer.phar require jabarihunt/json-web-token`
 
 ## Usage
 
